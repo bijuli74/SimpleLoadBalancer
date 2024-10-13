@@ -18,10 +18,10 @@ public class LoadBalancer {
     }
   }
 
-private static void handleSocket(Socket socket) {
-  ClientSocketHandler clientSocketHandler = new ClientSocketHandler(socket);
-  Thread clientSocketHandlerThread = new Thread(clientSocketHandler)
+  private static void handleSocket(Socket socket) {
+    ClientSocketHandler clientSocketHandler = new ClientSocketHandler(socket);
+    Thread clientSocketHandlerThread = new Thread(clientSocketHandler)
     clientSocketHandlerThread.start();
-}
+  }
 
 }

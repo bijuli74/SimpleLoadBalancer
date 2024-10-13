@@ -21,9 +21,14 @@ public class ClientSocketHandler implements Runnable {
       InputStream clientToLBInputStream = clientSocket.getInputStream();
       OutputStream lbToClientOutputStream = clientSocket.getOutputStream();
 
-      String backendHost = BackendServers.getHost();
+      // Set routing strategy
+      // BackendServers.setStrategy(BackendServers.LoadBalancingStrategy.LEAST_CONNECTIONS)
 
+      String backendHost = BackendServers.getHost();
       System.out.println("Host selected to handle this request : " + backendHost);
+
+      // Increment connection count
+      BackendServers.incrementConnection(backendHost);
 
       Socket socket = new Socket(backendHost, 8080);
 
@@ -64,6 +69,9 @@ public class ClientSocketHandler implements Runnable {
 
     } catch (IOException e) {
       throw new RuntimeException(e);
+    } finally {
+      // Decrement and close connection
+      BackendServers.decrementConnection(backendHost);
     }
   }
 }
